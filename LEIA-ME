@@ -1,0 +1,36 @@
+Bergamota OS
+
+Os scripts contidos neste repositorio consistem em gerar uma imagem custom
+do Debian 9 Stretch em um sistema para a RasperryPI rodando em 64bits.
+
+Os pacotes sao derivados da arquitetura arm64 (aarch64) ARMv8
+
+O kernel original do repositorio RPI contem apenas mudancas para ativar o suporte 64bit.
+
+
+Dependencias para gerar a imagem do sistema (instrucoes para debian e derivados)
+
+
+apt-get install gcc-aarch64-linux-gnu multistrap binfmt-support qemu qemu-user-static debootstrap
+
+
+O pacote gcc e usado para compilar o kernel arm64, e o pacote qemu para permitir efetuar o chroot()
+dentro do diretorio no qual o strap foi feito. Para executar os binarios ARM eh necessario ter
+o qemu-aarch64-static instalado dentro do diretorio onde o strap foi executado.
+
+Os scripts estao na ordem de execucao:
+
+1_build_rootfs.sh
+2_build_kernel.sh
+3_build_image.sh
+
+O diretorio overlay mantem conteudo que o usario quer customizar, incluir scripts, etc..
+Existem algumas customizacoes ja feitas, exemplo desativar o systemd renomear a eth0 para en0psXXXXXXXX
+
+*** ATENCAO *** *** ATENCAO *** *** ATENCAO ***
+
+O dispositivo onde sera gerado a imagem do sistema esta hardcoded em /dev/sdb por enquanto. Muito cuidado
+ao executar, tenha certeza que nao existe nenhum outro disco ou dispositivo com esse nome no seu sistema antes
+de executar, ou voce ira perder todos os dados de forma irreversivel!
+
+*** ATENCAO *** *** ATENCAO *** *** ATENCAO ***
