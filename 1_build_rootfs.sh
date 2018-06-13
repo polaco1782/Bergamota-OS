@@ -6,8 +6,9 @@ TARGET_ROOTFS_DIR="target-rootfs"
 
 if [ -d "$TARGET_ROOTFS_DIR" ]; then
   rm -rf $TARGET_ROOTFS_DIR
-  mkdir $TARGET_ROOTFS_DIR
 fi
+
+mkdir -p $TARGET_ROOTFS_DIR
 
 cd $TARGET_ROOTFS_DIR
 
@@ -22,7 +23,7 @@ mount -o bind /dev dev/
 cd ..
 
 echo "Create a basic rootfs contents..."
-multistrap -f multistrap.conf
+multistrap -f bergamota.conf
 
 echo "Install Qemu..."
 cp /usr/bin/qemu-aarch64-static $TARGET_ROOTFS_DIR/usr/bin
