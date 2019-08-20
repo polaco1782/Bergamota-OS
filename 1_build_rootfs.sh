@@ -34,6 +34,23 @@ LC_ALL=C LANGUAGE=C LANG=C chroot $TARGET_ROOTFS_DIR dpkg --configure -a
 echo "Define password for root"
 LC_ALL=C LANGUAGE=C LANG=C chroot $TARGET_ROOTFS_DIR passwd
 
+echo "Configure Wireless Credentials (leave blank to ignore)"
+read -p 'Wifi SSID: ' ssid
+read -p 'Password: ' pass
+
+if [ ! -z "$ssid" ]; then
+(cat <<'WPACONF'
+auto wlan0
+iface wlan0 inet dhcp
+wpa-ssid $ssid
+wpa-psk $pass
+WPACONF
+) >> $TARGET_ROOTFS_DIR/etc/network/interfaces
+fi
+
+echo "REConfigure packages..."
+LC_ALL=C LANGUAGE=C LANG=C chroot $TARGET_ROOTFS_DIR dpkg --configure base-files bash
+
 echo "Remove Qemu..."
 rm $TARGET_ROOTFS_DIR/usr/bin/qemu-aarch64-static
 

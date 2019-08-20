@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm -f /etc/dropbear/dropbear_*_host_key
+
+dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
+dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key
+dropbearkey -t ecdsa -f /etc/dropbear/dropbear_ecdsa_host_key
+

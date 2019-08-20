@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# expand partition
+sfdisk -N 3 /dev/mmcblk0 << EOF
+, +
+EOF
+
+# notify kernel changes
+sync
+kpartx -u /dev/mmcblk0p3
+
+# resize filesystem
+resize2fs /dev/mmcblk0p3
