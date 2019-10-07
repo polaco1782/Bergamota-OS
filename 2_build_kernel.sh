@@ -12,5 +12,7 @@ cd linux
 make bcmrpi3_defconfig
 make -j4
 
+cd ..
+
 # RPI firmware (boot kernel)
 git clone --depth 1 https://github.com/raspberrypi/firmware.git

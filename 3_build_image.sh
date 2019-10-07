@@ -8,7 +8,7 @@ rm bergamotaOS.img 2>/dev/null
 fallocate -l 1G bergamotaOS.img
 
 sfdisk bergamotaOS.img << EOF
-,50M,c
+,100M,c
 ,256M,82
 ,
 EOF
@@ -28,17 +28,7 @@ mount /dev/mapper/$part1 /mnt
 mkdir /mnt/overlays
 
 # broadcom stuff, proprietary blobs and license
-cp -v firmware/boot/COPYING.linux /mnt
-cp -v firmware/boot/LICENCE.broadcom /mnt
-cp -v firmware/boot/bootcode.bin /mnt
-cp -v firmware/boot/fixup.dat /mnt
-cp -v firmware/boot/fixup_cd.dat /mnt
-cp -v firmware/boot/fixup_db.dat /mnt
-cp -v firmware/boot/fixup_x.dat /mnt
-cp -v firmware/boot/start.elf /mnt
-cp -v firmware/boot/start_cd.elf /mnt
-cp -v firmware/boot/start_db.elf /mnt
-cp -v firmware/boot/start_x.elf /mnt
+cp -va firmware/boot/* /mnt 2>/dev/null
 
 # default boot configuration
 cp -v config.txt /mnt
@@ -46,7 +36,7 @@ cp -v cmdline.txt /mnt
 
 # ARM-v8 linux kernel and device tree
 cp -v linux/arch/arm64/boot/Image /mnt/kernel8.img
-cp -v linux/arch/arm64/boot/dts/broadcom/*.dtb /mnt
+#cp -v linux/arch/arm64/boot/dts/broadcom/*.dtb /mnt
 umount /mnt
 
 # format and mount secondary partition

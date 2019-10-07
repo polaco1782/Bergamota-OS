@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Configure Wireless Credentials (leave blank to ignore)"
+read -p 'Wifi SSID: ' ssid
+read -p 'Password: ' pass
+
+if [ ! -z "$ssid" ]; then
+(cat <<'WPACONF'
+auto wlan0
+iface wlan0 inet dhcp
+wpa-ssid $ssid
+wpa-psk $pass
+WPACONF
+) >> /etc/network/interfaces
+fi
