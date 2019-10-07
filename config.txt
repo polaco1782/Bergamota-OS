@@ -12,6 +12,7 @@ gpu_mem_1024=16
 
 # enable 64bit support
 arm_64bit=1
+kernel=kernel8.img
 
 # enable rpi3 ttyS0 serial console
 enable_uart=1

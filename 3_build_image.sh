@@ -27,16 +27,13 @@ mkswap -f /dev/mapper/$part2
 mount /dev/mapper/$part1 /mnt
 mkdir /mnt/overlays
 
-# broadcom stuff, proprietary blobs and license
+# broadcom stuff, kernel,proprietary blobs and license
 cp -va firmware/boot/* /mnt 2>/dev/null
+cp -va firmware/extra/* /mnt 2>/dev/null
 
 # default boot configuration
 cp -v config.txt /mnt
 cp -v cmdline.txt /mnt
-
-# ARM-v8 linux kernel and device tree
-cp -v linux/arch/arm64/boot/Image /mnt/kernel8.img
-#cp -v linux/arch/arm64/boot/dts/broadcom/*.dtb /mnt
 umount /mnt
 
 # format and mount secondary partition
@@ -45,11 +42,12 @@ mount /dev/mapper/$part3 /mnt
 
 sleep 5
 
-# install kernel modules
-make -C linux modules_install INSTALL_MOD_PATH=/mnt
-
 # copy strapped root files
 cp -aHx target-rootfs/* /mnt
+
+# install kernel modules
+mkdir -p /mnt/lib/modules
+cp -va firmware/modules/*-v8* /mnt/lib/modules 2>/dev/null
 
 # copy overlay files
 for f in $(find overlay/* | sed 's/overlay\///');
